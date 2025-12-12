@@ -22,6 +22,14 @@ export const t1k = defineChain({
       url: 'https://explorer-test.avax.network/t1k',
     },
   },
+  contracts: {
+    teleporterMessenger: {
+      address: '0x253b2784c75e510dD0fF1da844684a1aC0aa5fcf',
+    },
+    teleporterRegistry: {
+      address: '0xE329B5Ff445E4976821FdCa99D6897EC43891A6c',
+    },
+  },
   interchainContracts: {
     teleporterRegistry: '0xE329B5Ff445E4976821FdCa99D6897EC43891A6c',
     teleporterManager: '0x253b2784c75e510dD0fF1da844684a1aC0aa5fcf',

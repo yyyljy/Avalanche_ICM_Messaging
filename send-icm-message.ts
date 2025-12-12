@@ -6,7 +6,7 @@ import { defineChain } from "viem";
 
 export const T1K = defineChain({
   id: 54585,
-  name: 'T1K',
+  name: 'T1K Testnet',
   blockchainId: '0xd64bda92358ad0c136f76e8971a0281c50b48e97b12eea18d20e6552463cd336',
   nativeCurrency: {
     decimals: 18,
@@ -19,18 +19,21 @@ export const T1K = defineChain({
     },
   },
   blockExplorers: {
-    default: { name: 'T1K Explorer', url: 'https://explorer-test.avax.network/t1k' },
+    default: { name: 't1k Explorer', url: 'https://subnets.avax.network/t1k' },
   },
   contracts: {
+    teleporterMessenger: {
+      address: '0x253b2784c75e510dD0fF1da844684a1aC0aa5fcf', // 모든 체인 공통
+    },
     teleporterRegistry: {
-      address: '0xE329B5Ff445E4976821FdCa99D6897EC43891A6c'
-    }
+      address: '0xE329B5Ff445E4976821FdCa99D6897EC43891A6c', // AvaCloud 콘솔에서 확인
+    },
   },
   interchainContracts: {
-    teleporterRegistry: '0xE329B5Ff445E4976821FdCa99D6897EC43891A6c',
-    teleporterManager: '0x253b2784c75e510dD0fF1da844684a1aC0aa5fcf',
+    teleporterRegistry: "0xE329B5Ff445E4976821FdCa99D6897EC43891A6c",
+    teleporterManager: "0x253b2784c75e510dD0fF1da844684a1aC0aa5fcf",
   },
-  testnet: true
+  testnet: true,
 }) as ChainConfig;
 
 /**
@@ -59,33 +62,41 @@ async function sendICMMessage() {
     const wallet = createAvalancheWalletClient({
       account,
       chain: clientAvalancheFuji,
-      transport: { type: "http" },
+      transport: { type: "http", url: "https://api.avax-test.network/ext/bc/C/rpc" },
     });
     console.log("Wallet Client 생성 완료");
 
     // 4. ICM Client 초기화
-    // const icm = createICMClient(wallet, avalancheFuji, T1K);
-    // const icm = createICMClient(wallet, T1K, avalancheFuji);
-    const icm = createICMClient(wallet, avalancheFuji, dispatch);
+    const icm = createICMClient(wallet, avalancheFuji, T1K);
     console.log("ICM Client 초기화 완료");
-
-    // 5. 메시지 전송
-    // const message = "Hello from Avalanche!";
-    const message = "L1으로 보내보는 메세지";
-    console.log(`메시지 전송 중: "${message}"`);
     console.log(`소스 체인: ${avalancheFuji.name}`);
-    // console.log(`목적지 체인: ${dispatch.name}`);
     console.log(`목적지 체인: ${T1K.name}`);
 
-    const hash = await icm.sendMsg({
-      sourceChain: avalancheFuji,
-      // sourceChain: T1K,
-      destinationChain: dispatch,
-      // destinationChain: avalancheFuji,
-      // destinationChain: T1K,
-      message: message,
-    });
+    // 5. 메시지 전송
+    const message = "L1으로 보내보는 메세지";
+    console.log(`메시지 전송 중: "${message}"`);
 
+  //  * @param params.message - The message content to send (will be encoded as string)
+  //  * @param params.sourceChain - Source blockchain configuration (required if not set in constructor)
+  //  * @param params.destinationChain - Destination blockchain configuration (required if not set in constructor)
+  //  * @param params.recipientAddress - Optional recipient address on destination chain (defaults to zero address)
+  //  * @param params.feeInfo - Optional fee information (overrides default if provided)
+  //  * @param params.requiredGasLimit - Optional gas limit (overrides default if provided)
+  //  * @param params.allowedRelayerAddresses - Optional relayer addresses (overrides default if provided)
+  //  *
+  
+    const hash = await icm.sendMsg({
+      message: message,
+      sourceChain: avalancheFuji,
+      destinationChain: T1K,
+      recipientAddress: "0x748a88f850D81EC0f5F4F51B89511d65857085D7" as `0x${string}`,
+      feeInfo: {
+        feeTokenAddress: "0x0000000000000000000000000000000000000000" as `0x${string}`,
+        amount: 0n,
+      },
+      requiredGasLimit: 100000n,
+      allowedRelayerAddresses: [],
+    });
     console.log("✅ 메시지 전송 성공!");
     console.log("트랜잭션 해시:", hash);
 

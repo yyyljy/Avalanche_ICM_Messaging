@@ -19,10 +19,29 @@ export async function sendICMMessage({
   destinationChain = dispatch,
 }: SendMessageParams): Promise<SendMessageResult> {
   try {
+    // 실제 사용되는 체인 정보 출력
+    console.log('=== ICM 메시지 전송 시작 ===');
+    console.log('📍 Source Chain:', {
+      name: sourceChain.name,
+      id: sourceChain.id,
+      blockchainId: sourceChain.blockchainId,
+    });
+    console.log('📍 Destination Chain:', {
+      name: destinationChain.name,
+      id: destinationChain.id,
+      blockchainId: destinationChain.blockchainId,
+    });
+    
     // ICM Client 생성
     const icm = createICMClient(walletClient, sourceChain, destinationChain);
 
     // 메시지 전송
+    console.log('📤 sendMsg 호출 with:', {
+      sourceChain: sourceChain.name,
+      destinationChain: destinationChain.name,
+      message,
+    });
+    
     const txHash = await icm.sendMsg({
       sourceChain,
       destinationChain,

@@ -7,8 +7,9 @@
     "send-message": "tsx send-icm-message.ts"
   },
   "dependencies": {
-    "@avalanche-sdk/interchain": "*",
-    "@avalanche-sdk/client": "*"
+    "@avalanche-sdk/client": "*",
+    "@avalanche-sdk/interchain": "https://github.com/yyyljy/avalanche-sdk-typescript.git",
+    "dotenv": "^17.2.3"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
@@ -17,4 +18,3 @@
     "typescript": "^5.0.0"
   }
 }
-
