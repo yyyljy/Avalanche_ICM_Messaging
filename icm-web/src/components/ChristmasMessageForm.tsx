@@ -8,7 +8,7 @@ import { WalletConnect } from './WalletConnect';
 export function ChristmasMessageForm() {
   const { walletClient, isConnected, account } = useWallet();
   const [message, setMessage] = useState('');
-  const [selectedChain, setSelectedChain] = useState<ChainId>('dispatch');
+  const [selectedChain, setSelectedChain] = useState<ChainId>('t1k');
   const [isLoading, setIsLoading] = useState(false);
   const [txHash, setTxHash] = useState<string | null>(null);
   const [messageId, setMessageId] = useState<string | null>(null);
