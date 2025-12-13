@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -10,6 +11,10 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@avalanche-sdk/interchain': path.resolve(
+        __dirname,
+        'node_modules/@avalanche-sdk/interchain/src/index.ts'
+      ),
       process: 'process/browser',
       buffer: 'buffer',
       util: 'util',
