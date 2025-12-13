@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@avalanche-sdk/client": "*",
-    "@avalanche-sdk/interchain": "https://github.com/yyyljy/avalanche-sdk-typescript.git",
+    "@avalanche-sdk/interchain": "github:yyyljy/interchain",
     "dotenv": "^17.2.3"
   },
   "devDependencies": {

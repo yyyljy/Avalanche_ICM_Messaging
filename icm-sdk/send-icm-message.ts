@@ -73,7 +73,7 @@ async function sendICMMessage() {
     console.log(`목적지 체인: ${T1K.name}`);
 
     // 5. 메시지 전송
-    const message = "L1으로 보내보는 메세지";
+    const message = "SDK를 이용해 T1K로 보내보는 메세지";
     console.log(`메시지 전송 중: "${message}"`);
 
   //  * @param params.message - The message content to send (will be encoded as string)

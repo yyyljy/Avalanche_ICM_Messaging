@@ -10,7 +10,16 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@avalanche-sdk/interchain": [
+        "../icm-sdk/node_modules/@avalanche-sdk/interchain/src/index.ts"
+      ],
+      "@avalanche-sdk/interchain/*": [
+        "../icm-sdk/node_modules/@avalanche-sdk/interchain/src/*"
+      ]
+    }
   },
   "include": ["*.ts"],
   "exclude": ["node_modules", "dist"]
