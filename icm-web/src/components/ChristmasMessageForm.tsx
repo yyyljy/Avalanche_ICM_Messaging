@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { useWallet } from '../contexts/WalletContext';
-import { sendICMMessage, avalancheFuji, dispatch } from '../utils/icm';
-import { t1k, AVAILABLE_CHAINS } from '../config/chains';
-import type { ChainId } from '../config/chains';
-import { WalletConnect } from './WalletConnect';
+import { useState } from "react";
+import { useWallet } from "../contexts/WalletContext";
+import { sendICMMessage, avalancheFuji, dispatch } from "../utils/icm";
+import { t1k, AVAILABLE_CHAINS } from "../config/chains";
+import type { ChainId } from "../config/chains";
+import { WalletConnect } from "./WalletConnect";
 
 export function ChristmasMessageForm() {
-  const { walletClient, isConnected, account } = useWallet();
-  const [message, setMessage] = useState('');
-  const [selectedChain, setSelectedChain] = useState<ChainId>('t1k');
+  const { walletClient, isConnected } = useWallet();
+  const [message, setMessage] = useState("");
+  const [selectedChain, setSelectedChain] = useState<ChainId>("t1k");
   const [isLoading, setIsLoading] = useState(false);
   const [txHash, setTxHash] = useState<string | null>(null);
   const [messageId, setMessageId] = useState<string | null>(null);
@@ -16,19 +16,19 @@ export function ChristmasMessageForm() {
 
   // 선택된 체인 객체 가져오기
   const getDestinationChain = () => {
-    return selectedChain === 't1k' ? t1k : dispatch;
+    return selectedChain === "t1k" ? t1k : dispatch;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!message.trim()) {
-      setError('메시지를 입력해주세요.');
+      setError("메시지를 입력해주세요.");
       return;
     }
 
     if (!walletClient || !isConnected) {
-      setError('먼저 지갑을 연결해주세요.');
+      setError("먼저 지갑을 연결해주세요.");
       return;
     }
 
@@ -46,13 +46,13 @@ export function ChristmasMessageForm() {
 
       setTxHash(result.txHash);
       setMessageId(result.messageId);
-      setMessage('');
-      console.log('✅ 메시지 전송 성공!');
-      console.log('트랜잭션 해시:', result.txHash);
-      console.log('메시지 ID:', result.messageId);
+      setMessage("");
+      console.log("✅ 메시지 전송 성공!");
+      console.log("트랜잭션 해시:", result.txHash);
+      console.log("메시지 ID:", result.messageId);
     } catch (err: any) {
-      console.error('메시지 전송 오류:', err);
-      setError(err.message || '메시지 전송에 실패했습니다.');
+      console.error("메시지 전송 오류:", err);
+      setError(err.message || "메시지 전송에 실패했습니다.");
     } finally {
       setIsLoading(false);
     }
@@ -82,8 +82,8 @@ export function ChristmasMessageForm() {
           <div className="chain-route">
             <span className="chain-tag">{avalancheFuji.name}</span>
             <span className="arrow">→</span>
-            <select 
-              value={selectedChain} 
+            <select
+              value={selectedChain}
               onChange={(e) => setSelectedChain(e.target.value as ChainId)}
               className="chain-select"
               disabled={isLoading}
@@ -111,12 +111,12 @@ export function ChristmasMessageForm() {
             />
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={!isConnected || isLoading || !message.trim()}
             className="send-letter-button"
           >
-            {isLoading ? '🎁 Sending...' : '📮 Send Letter'}
+            {isLoading ? "🎁 Sending..." : "📮 Send Letter"}
           </button>
         </form>
 
@@ -152,7 +152,10 @@ export function ChristmasMessageForm() {
               </a>
               {messageId && (
                 <a
-                  href={`https://explorer-test.avax.network/teleporter/${messageId.replace('0x', '')}`}
+                  href={`https://explorer-test.avax.network/teleporter/${messageId.replace(
+                    "0x",
+                    ""
+                  )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="explorer-link"
@@ -183,4 +186,3 @@ export function ChristmasMessageForm() {
     </div>
   );
 }
-

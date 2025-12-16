@@ -27,14 +27,14 @@ export function MessageForm() {
     setTxHash(null);
 
     try {
-      const hash = await sendICMMessage({
+      const result = await sendICMMessage({
         walletClient,
         message: message.trim(),
       });
 
-      setTxHash(hash);
+      setTxHash(result.txHash);
       setMessage('');
-      console.log('✅ 메시지 전송 성공! 트랜잭션 해시:', hash);
+      console.log('✅ 메시지 전송 성공! 트랜잭션 해시:', result.txHash);
     } catch (err: any) {
       console.error('메시지 전송 오류:', err);
       setError(err.message || '메시지 전송에 실패했습니다.');
